@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link , useNavigate } from "react-router-dom";
+import { useState, useContext  } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { faLock } from "@fortawesome/free-solid-svg-icons";;
+import { DataContext } from "../context/DataContext";
 import FormIpnut from "../components/FormInput";
 
 function Login() {
@@ -14,6 +14,7 @@ function Login() {
 		// rest of the code;
 		navigate("/avatar");
 	}
+	const {setEmail} = useContext(DataContext)
 
 	return (
 		<section className="bg-white flex h-full">
@@ -55,6 +56,7 @@ function Login() {
 						id="email"
 						name="email"
 						placeholder="email"
+						handleChange={(e) => setEmail(e.target.value)}
 					/>
 
 					{/* password */}

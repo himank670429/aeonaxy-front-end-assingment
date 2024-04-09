@@ -9,6 +9,7 @@ export default function FormIpnut({
 	type,
 	className,
 	error,
+	handleChange
 }) {
 	return (
 		<div className={"flex flex-col gap-2 " + className}>
@@ -31,6 +32,7 @@ export default function FormIpnut({
 				} rounded-md p-2 outline-none `}
 				id={id}
 				name={name}
+				onChange={handleChange}
 				placeholder={placeholder}
 				type={type}
 			/>

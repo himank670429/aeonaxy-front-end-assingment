@@ -4,8 +4,9 @@ import {
 	faTrash,
 	faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { DataContext } from "../context/DataContext";
 function Avatar() {
 	const [formData, setFormData] = useState({
 		image: "",
@@ -16,14 +17,7 @@ function Avatar() {
 		e.preventDefault();
 		navigate("/options");
 	}
-
-	const default_avatars = [
-		"https://images.unsplash.com/photo-1618193139062-2c5bf4f935b7?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwyMDEzNTIwfHxlbnwwfHx8fHw%3D",
-		"https://images.unsplash.com/photo-1596571109151-c2238188cde3?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8NXwyMDEzNTIwfHxlbnwwfHx8fHw%3D",
-		"https://images.unsplash.com/photo-1574864745093-5566c5be5855?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8N3wyMDEzNTIwfHxlbnwwfHx8fHw%3D",
-		"https://images.unsplash.com/photo-1613678786514-37badafa431a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MTJ8MjAxMzUyMHx8ZW58MHx8fHx8",
-		"https://images.unsplash.com/photo-1625519205691-1b6b7b24622e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MTN8MjAxMzUyMHx8ZW58MHx8fHx8",
-	];
+	const { setProfilePic } = useContext(DataContext);
 
 	const [disabled, setDisabled] = useState(true);
 
@@ -46,6 +40,7 @@ function Avatar() {
 		const fileReader = new FileReader();
 		fileReader.onload = function (e) {
 			setFormData((prev) => ({ ...prev, image: e.target.result }));
+			setProfilePic(e.target.result)
 		};
 		fileReader.readAsDataURL(image);
 	}

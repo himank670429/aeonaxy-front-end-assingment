@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useContext } from "react";
+import { DataContext } from "../context/DataContext";
 import FormIpnut from "../components/FormInput";
 function Register() {
 	const [errorMessage, setErrorMessage] = useState("error");
@@ -11,6 +12,7 @@ function Register() {
 		// rest of the code;
 		navigate("/avatar");
 	}
+	const {setEmail} = useContext(DataContext)
 
 	return (
 		<section className="bg-white flex h-full">
@@ -73,6 +75,7 @@ function Register() {
 						id="email"
 						name="email"
 						placeholder="email"
+						handleChange={(e) => setEmail(e.target.value)}
 					/>
 
 					{/* password */}

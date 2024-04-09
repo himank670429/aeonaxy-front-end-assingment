@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { DataContext } from "../context/DataContext";
 
 import {
 	faBriefcase,
@@ -10,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 function Navbar() {
 	const [open, setOpen] = useState(false);
+	const { userInfo } = useContext(DataContext);
 	return (
 		<>
 			<nav className="flex gap-4 p-4 text-gray-base justify-between lg:justify-normal">
@@ -58,7 +60,7 @@ function Navbar() {
 
 					{/* profile */}
 					<img
-						src="https://images.unsplash.com/photo-1712242467502-678b72cc8b5b?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8"
+						src={userInfo.profile_pic}
 						className="size-[30px] rounded-full object-cover"
 					/>
 					{/* upload */}
