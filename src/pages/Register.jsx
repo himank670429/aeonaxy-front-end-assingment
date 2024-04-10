@@ -5,14 +5,25 @@ import { useContext } from "react";
 import { DataContext } from "../context/DataContext";
 import FormIpnut from "../components/FormInput";
 function Register() {
-	const [errorMessage, setErrorMessage] = useState("error");
+	const [errorMessage, setErrorMessage] = useState("");
+	const { register } = useContext(DataContext);
 	const navigate = useNavigate();
+	const [data, setData] = useState({
+		username: "",
+		name: "",
+		email: "",
+		password: "",
+	});
+
 	function handleSubmit(e) {
 		e.preventDefault();
-		// rest of the code;
-		navigate("/avatar");
+		try {
+			register(data.username, data.name, data.email, data.password);
+			navigate("/avatar");
+		} catch (err) {
+			setErrorMessage(err);
+		}
 	}
-	const {setEmail} = useContext(DataContext)
 
 	return (
 		<section className="bg-white flex h-full">
@@ -39,7 +50,9 @@ function Register() {
 					onSubmit={handleSubmit}
 					className="self-stretch max-w-full md:self-center flex flex-col gap-8 md:px-12"
 				>
-					<span className="font-bold text-2xl sm:text-3xl md:text-4xl ">Sign up to dribble</span>
+					<span className="font-bold text-2xl sm:text-3xl md:text-4xl ">
+						Sign up to dribble
+					</span>
 
 					{/* error message */}
 					<p className="text-base text-warning-dark">
@@ -56,6 +69,7 @@ function Register() {
 							id="name"
 							name="name"
 							placeholder="name"
+							handleChange={(e) => setData((p) => ({ ...p, name: e.target.value }))}
 						/>
 						<FormIpnut
 							className="grow"
@@ -64,6 +78,9 @@ function Register() {
 							id="username"
 							name="username"
 							placeholder="username"
+							handleChange={(e) =>
+								setData((p) => ({ ...p, username: e.target.value }))
+							}
 							// error={true}
 						/>
 					</div>
@@ -75,7 +92,7 @@ function Register() {
 						id="email"
 						name="email"
 						placeholder="email"
-						handleChange={(e) => setEmail(e.target.value)}
+						handleChange={(e) => setData((p) => ({ ...p, email: e.target.value }))}
 					/>
 
 					{/* password */}
@@ -85,6 +102,7 @@ function Register() {
 						id="password"
 						name="password"
 						placeholder="6+ characters"
+						handleChange={(e) => setData((p) => ({ ...p, password: e.target.value }))}
 					/>
 					<div className="flex w-full gap-2 items-start">
 						<input

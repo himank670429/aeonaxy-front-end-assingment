@@ -1,20 +1,28 @@
-import { Link , useNavigate } from "react-router-dom";
-import { useState, useContext  } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";;
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { DataContext } from "../context/DataContext";
 import FormIpnut from "../components/FormInput";
 
 function Login() {
 	const [errorMessage, setErrorMessage] = useState("");
-
+	const [data, setData] = useState({
+		email: "",
+		password: "",
+	});
+	const { login, setEmail } = useContext(DataContext);
 	const navigate = useNavigate();
+
 	function handleSubmit(e) {
 		e.preventDefault();
-		// rest of the code;
-		navigate("/avatar");
+		try {
+			login(data.email, data.password);
+			navigate("/avatar");
+		} catch (err) {
+			setErrorMessage(err)
+		}
 	}
-	const {setEmail} = useContext(DataContext)
 
 	return (
 		<section className="bg-white flex h-full">
@@ -41,11 +49,13 @@ function Login() {
 					onSubmit={handleSubmit}
 					className="self-stretch max-w-full md:self-center flex flex-col gap-8 md:max-w-[60%]"
 				>
-					<span className="font-bold text-2xl sm:text-3xl md:text-4xl flex-nowrap">Login to dribble!</span>
+					<span className="font-bold text-2xl sm:text-3xl md:text-4xl flex-nowrap">
+						Login to dribble!
+					</span>
 
 					{/* error message */}
 					<p className="text-base text-warning-dark">
-						{errorMessage ? `• ${errorMessage}` : "​"}
+						{errorMessage ? `• ${errorMessage.message}` : "​"}
 						{/* U+200B is being returned. (insivible charatcer) */}
 					</p>
 
@@ -56,7 +66,11 @@ function Login() {
 						id="email"
 						name="email"
 						placeholder="email"
-						handleChange={(e) => setEmail(e.target.value)}
+						error={errorMessage?.id == 2}
+						handleChange={(e) =>{
+							setEmail(e.target.value)
+							setData((p) => ({ ...p, email: e.target.value }))}
+						} 
 					/>
 
 					{/* password */}
@@ -66,6 +80,8 @@ function Login() {
 						id="password"
 						name="password"
 						placeholder="6+ characters"
+						error={errorMessage?.id == 1}
+						handleChange={(e) => setData((p) => ({ ...p, password: e.target.value }))}
 					/>
 					<div className="flex w-full gap-2 items-start justify-between">
 						<div className="flex gap-2">

@@ -12,6 +12,7 @@ import {
 function Navbar() {
 	const [open, setOpen] = useState(false);
 	const { userInfo } = useContext(DataContext);
+	console.log(userInfo.profile_pic)
 	return (
 		<>
 			<nav className="flex gap-4 p-4 text-gray-base justify-between lg:justify-normal">
